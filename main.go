@@ -1,7 +1,15 @@
 package main
 
-func main() {
-	cards := deck{"card1", "card2"}
+import (
+	"fmt"
+	"os"
+)
 
+func main() {
+	cards, error := newDeckFromFile("onHand1")
+	if error != nil {
+		fmt.Println("Error : ", error)
+		os.Exit(1)
+	}
 	cards.print()
 }
