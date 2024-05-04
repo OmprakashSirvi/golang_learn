@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 type deck []string
@@ -51,4 +53,21 @@ func newDeckFromFile(fileName string) (deck, error) {
 		return nil, error
 	}
 	return deck(strings.Split(string(content), ", ")), nil
+}
+
+func (d deck) size() int {
+	return len([]string(d))
+}
+
+func (d deck) shuffle() deck {
+	source := rand.NewSource(time.Now().UnixMicro())
+	r := rand.New(source)
+	if d.size() <= 0 {
+		return d
+	}
+	for index := range d {
+		randIndex := r.Intn(d.size())
+		d[index], d[randIndex] = d[randIndex], d[index]
+	}
+	return d
 }
